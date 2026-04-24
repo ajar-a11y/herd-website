@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Herd — Brands, built by AI</title>
+<meta name="description" content="Herd is a house of brands built by AI. Our models identify products, source suppliers, design packaging, write listings, and run live operations."/>
+<meta name="theme-color" content="#f7f3eb"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d1914'/%3E%3Ctext x='50%25' y='52%25' dy='.34em' text-anchor='middle' font-family='-apple-system,system-ui,sans-serif' font-size='20' font-weight='500' fill='%23f7f3eb'%3EH%3C/text%3E%3Ccircle cx='24' cy='24' r='2.2' fill='%23d86a3a'/%3E%3C/svg%3E"/>
+
+<!-- Open Graph -->
+<meta property="og:title" content="Herd — Brands, built by AI"/>
+<meta property="og:description" content="A house of brands built by AI. From data to shelf."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://herd-group.com"/>
+
+<style>
+  :root {
+    --paper: oklch(97.5% 0.008 80);
+    --paper-2: oklch(95.5% 0.012 80);
+    --ink: oklch(18% 0.012 60);
+    --ink-80: oklch(30% 0.012 60);
+    --ink-70: oklch(42% 0.012 60);
+    --ink-60: oklch(52% 0.01 60);
+    --ink-50: oklch(62% 0.01 60);
+    --ink-20: oklch(82% 0.01 60);
+    --ink-15: oklch(86% 0.008 60);
+    --ink-10: oklch(90% 0.008 60);
+    --accent: oklch(68% 0.17 45); /* warm terracotta */
+    --danger: oklch(55% 0.18 28);
+    --serif: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+    --mono: ui-monospace, 'SF Mono', Menlo, Monaco, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  ::selection { background: var(--accent); color: var(--paper); }
+
+  a { color: inherit; }
+  .h-nav-link { position: relative; }
+  .h-nav-link::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 1px;
+    background: var(--ink); transform: scaleX(0); transform-origin: left;
+    transition: transform .25s ease;
+  }
+  .h-nav-link:hover::after { transform: scaleX(1); }
+  .h-cta-sm:hover { background: color-mix(in oklab, var(--ink) 85%, var(--accent)); }
+  .h-cta-sm:active { transform: translateY(1px); }
+
+  input:focus, textarea:focus { border-bottom-color: var(--accent) !important; }
+
+  @keyframes herd-marquee {
+    from { transform: translate3d(0,0,0); }
+    to { transform: translate3d(-33.333%,0,0); }
+  }
+  @keyframes herd-scroll {
+    0%   { transform: translate(-50%, -100%); }
+    60%  { transform: translate(-50%, 140%); }
+    100% { transform: translate(-50%, 140%); }
+  }
+  @keyframes tr-pulse {
+    0%   { box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 55%, transparent); transform: scale(1); }
+    70%  { box-shadow: 0 0 0 10px color-mix(in oklab, var(--accent) 0%, transparent); transform: scale(1.15); }
+    100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 0%, transparent); transform: scale(1); }
+  }
+
+  /* ————— Responsive: tablet ————— */
+  @media (max-width: 1024px) {
+    .h-demo { padding: 100px 24px !important; }
+    .h-demo-steps { flex-wrap: wrap !important; }
+    .h-demo-step { flex: 1 0 33% !important; border-bottom: 1px solid var(--ink-10); }
+  }
+
+  /* ————— Responsive: mobile ————— */
+  @media (max-width: 900px) {
+    /* Nav */
+    .h-nav-links { display: none !important; }
+    .h-burger { display: inline-flex !important; }
+    .h-nav { padding: 14px 20px !important; }
+
+    /* Hero */
+    .h-hero { padding: 130px 20px 80px !important; min-height: 100vh !important; }
+    .h-hero-title { font-size: clamp(56px, 15vw, 120px) !important; line-height: 0.9 !important; }
+
+    /* Approach (if rendered) */
+    .h-approach { padding: 80px 20px !important; }
+    .h-approach > div { grid-template-columns: 1fr !important; }
+    .h-approach-head, .h-approach-blocks { grid-column: 1 / -1 !important; }
+    .h-approach-blocks { margin-top: 28px; }
+
+    /* Demonstration — the pipeline */
+    .h-demo { padding: 72px 20px !important; }
+    .h-demo > div { grid-template-columns: 1fr !important; gap: 16px !important; }
+    .h-demo-head { grid-column: 1 / -1 !important; margin-bottom: 20px !important; }
+    .h-demo-head h2 { font-size: clamp(34px, 9vw, 48px) !important; }
+    .h-demo-steps {
+      flex-direction: column !important;
+      border-top: 1px solid var(--ink-10) !important;
+      border-bottom: 1px solid var(--ink-10) !important;
+    }
+    .h-demo-step {
+      border-right: none !important;
+      border-bottom: 1px solid var(--ink-10) !important;
+      padding: 14px 16px !important;
+      min-height: 56px !important;
+    }
+    .h-demo-step:last-child { border-bottom: none !important; }
+    .h-demo-particles { display: none !important; }
+    /* StageVisual grids inside the body are multi-column tables; let them scroll horizontally rather than squish */
+    .h-demo-body { padding: 20px !important; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .h-demo-body > * { min-width: 560px; }
+
+    /* Traction — chart */
+    .h-traction { padding: 72px 20px !important; }
+    .h-traction > div { grid-template-columns: 1fr !important; gap: 32px !important; }
+    .h-traction-left, .h-traction-right { grid-column: 1 / -1 !important; }
+
+    /* Founder */
+    .h-founder { padding: 72px 20px !important; }
+    .h-founder > div { grid-template-columns: 1fr !important; gap: 36px !important; }
+    .h-founder-portrait, .h-founder-text { grid-column: 1 / -1 !important; }
+    .h-founder-portrait { max-width: 420px; margin: 0 auto; width: 100%; }
+
+    /* Journey */
+    .h-journey { padding: 80px 20px !important; }
+    .h-journey > div > div { grid-template-columns: 1fr !important; }
+    .h-journey-note { grid-column: 1 / -1 !important; }
+    .h-timeline-row {
+      grid-template-columns: 64px 1fr !important;
+      grid-template-areas: "dot year" "dot title" "dot copy" !important;
+      gap: 10px 16px !important;
+      padding: 32px 0 !important;
+    }
+    .h-timeline-row > :nth-child(1) { grid-area: year; }
+    .h-timeline-row > :nth-child(2) { grid-area: dot; align-self: start; margin-top: 12px; }
+    .h-timeline-row > :nth-child(3) { grid-area: title; margin: 0; }
+    .h-timeline-row > :nth-child(4) { grid-area: copy; }
+    .h-journey-thread { left: 30px !important; }
+
+    /* Contact */
+    .h-contact { padding: 64px 20px 48px !important; }
+    .h-contact > div { grid-template-columns: 1fr !important; gap: 32px !important; }
+    .h-contact-left, .h-contact-right { grid-column: 1 / -1 !important; }
+    .h-form-row { grid-template-columns: 1fr !important; }
+
+    /* Footer */
+    .h-footer { padding: 56px 20px 32px !important; }
+    .h-footer-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+    .h-footer-meta { text-align: left !important; }
+  }
+
+  /* ————— Small phones ————— */
+  @media (max-width: 480px) {
+    .h-hero-title { font-size: clamp(48px, 15vw, 84px) !important; }
+    .h-nav { padding: 12px 16px !important; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .h-marquee { animation: none !important; }
+    * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="components.jsx"></script>
+<script type="text/babel" src="investor.jsx"></script>
+<script type="text/babel" src="demonstration.jsx"></script>
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+  function App() {
+    return (
+      <>
+        <Nav />
+        <Hero />
+        <Demonstration />
+        <Traction />
+        <Founder />
+        <Journey />
+        <Contact />
+        <Footer />
+      </>
+    );
+  }
+  createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
