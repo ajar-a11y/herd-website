@@ -178,16 +178,17 @@ function Hero() {
   const [scrollY, setScrollY] = useState(0);
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 60);
+    const isTouch = window.matchMedia('(hover: none)').matches;
     const onMove = (e) => setMouse({ x: e.clientX / window.innerWidth, y: Math.min(1, e.clientY / window.innerHeight) });
     const onScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('mousemove', onMove);
+    if (!isTouch) window.addEventListener('mousemove', onMove);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => { clearTimeout(t); window.removeEventListener('mousemove', onMove); window.removeEventListener('scroll', onScroll); };
   }, []);
 
   const line1 = 'Brands, built';
   const line2 = 'by AI.';
-  const parallax = scrollY * 0.35;
+  const parallax = (typeof window !== 'undefined' && window.innerWidth < 900) ? 0 : scrollY * 0.35;
 
   // Glyph cycle: each character rolls through random glyphs before settling on its real char.
   // Characters resolve left-to-right so the headline "generates" itself like a model sampling.
@@ -243,7 +244,7 @@ function Hero() {
     <header id="top" className="h-hero" style={{
       position: 'relative',
       minHeight: '100vh',
-      padding: '180px 32px 80px',
+      padding: 'clamp(130px, 18vw, 180px) clamp(20px, 4vw, 32px) clamp(60px, 10vw, 80px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -425,7 +426,7 @@ function Approach() {
   ];
   return (
     <section id="approach" className="h-approach" style={{
-      padding: '140px 32px',
+      padding: 'clamp(80px, 12vw, 140px) clamp(20px, 4vw, 32px)',
       background: 'var(--paper)',
       borderTop: '1px solid var(--ink-10)',
     }}>
@@ -555,7 +556,7 @@ function Journey() {
 
   return (
     <section id="journey" className="h-journey" style={{
-      padding: '140px 32px',
+      padding: 'clamp(80px, 12vw, 140px) clamp(20px, 4vw, 32px)',
       background: 'var(--ink)',
       color: 'var(--paper)',
       position: 'relative',
@@ -767,211 +768,75 @@ function JourneyRow({ e, i, last, rowRef, active, progress, anchor }) {
 // ————— Contact —————
 
 function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', company: '', message: '' });
-  const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState('idle'); // idle | submitting | success
-
-  const validate = () => {
-    const e = {};
-    if (!form.name.trim()) e.name = 'Your name is required.';
-    if (!form.email.trim()) e.email = 'Email is required.';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'That doesn’t look like a valid email.';
-    if (!form.message.trim() || form.message.trim().length < 10) e.message = 'Tell us a bit more — at least 10 characters.';
-    return e;
-  };
-
-  const onSubmit = (ev) => {
-    ev.preventDefault();
-    const e = validate();
-    setErrors(e);
-    if (Object.keys(e).length) return;
-    setStatus('submitting');
-    setTimeout(() => {
-      setStatus('success');
-    }, 900);
-  };
-
-  const field = (name, label, props = {}) => {
-    const err = errors[name];
-    return (
-      <label style={{ display: 'block' }}>
-        <span style={{
-          display: 'block', fontFamily: 'var(--mono)', fontSize: 11,
-          letterSpacing: '0.14em', textTransform: 'uppercase',
-          color: err ? 'var(--danger)' : 'var(--ink-60)', marginBottom: 8,
-        }}>{err || label}</span>
-        {props.as === 'textarea' ? (
-          <textarea
-            value={form[name]}
-            onChange={(e) => setForm(f => ({ ...f, [name]: e.target.value }))}
-            rows={4}
-            style={inputStyle(!!err)}
-            placeholder={props.placeholder}
-          />
-        ) : (
-          <input
-            type={props.type || 'text'}
-            value={form[name]}
-            onChange={(e) => setForm(f => ({ ...f, [name]: e.target.value }))}
-            style={inputStyle(!!err)}
-            placeholder={props.placeholder}
-          />
-        )}
-      </label>
-    );
-  };
-
   return (
     <section id="contact" className="h-contact" style={{
-      padding: '72px 32px 56px',
+      padding: 'clamp(72px, 10vw, 128px) clamp(20px, 4vw, 32px)',
       background: 'var(--paper)',
       borderTop: '1px solid var(--ink-10)',
+      textAlign: 'center',
     }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 40, alignItems: 'start' }}>
-        <div className="h-contact-left" style={{ gridColumn: 'span 5' }}>
-          <Reveal delay={120}>
-            <h2 style={{
-              fontFamily: 'var(--serif)', fontWeight: 400,
-              fontSize: 'clamp(36px, 4vw, 64px)', lineHeight: 0.98,
-              letterSpacing: '-0.03em', margin: 0, color: 'var(--ink)',
-              textWrap: 'balance',
-            }}>
-              Talk to <span style={{ fontStyle: 'italic' }}>the humans.</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={240}>
-            <p style={{
-              fontFamily: 'var(--sans)', fontSize: 15, lineHeight: 1.55,
-              color: 'var(--ink-70)', margin: '16px 0 0', maxWidth: 400,
-            }}>
-              Partnerships, investment, press, or careers — write to us and
-              a human will read it.
-            </p>
-          </Reveal>
-          <Reveal delay={340}>
-            <div style={{
-              margin: '28px 0 0',
-              fontFamily: 'var(--mono)', fontSize: 13,
-              color: 'var(--ink)',
-            }}>
-              info@herd-group.com
-            </div>
-          </Reveal>
-        </div>
+      <div style={{ maxWidth: 920, margin: '0 auto' }}>
+        <Reveal>
+          <div style={{
+            fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '0.18em',
+            textTransform: 'uppercase', color: 'var(--ink-60)',
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            marginBottom: 24,
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: 999, background: 'var(--accent)', display: 'inline-block' }}/>
+            Get in touch
+          </div>
+        </Reveal>
 
-        <div className="h-contact-right" style={{ gridColumn: '7 / span 6' }}>
-          <Reveal delay={160}>
-            <div style={{
-              background: 'var(--ink)',
-              color: 'var(--paper)',
-              borderRadius: 20,
-              padding: 'clamp(28px, 3vw, 40px)',
-              position: 'relative',
-              overflow: 'hidden',
-            }}>
-              <div aria-hidden style={{
-                position: 'absolute', top: -80, right: -80, width: 300, height: 300, borderRadius: '50%',
-                background: 'radial-gradient(circle, color-mix(in oklab, var(--accent) 40%, transparent), transparent 65%)',
-                pointerEvents: 'none',
-              }}/>
-              {status === 'success' ? (
-                <SuccessState onReset={() => { setForm({ name:'', email:'', company:'', message:'' }); setStatus('idle'); }}/>
-              ) : (
-                <form onSubmit={onSubmit} style={{ position: 'relative', display: 'grid', gap: 20 }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="h-form-row">
-                    {field('name', 'Your name', { placeholder: 'Jane Doe' })}
-                    {field('email', 'Email', { type: 'email', placeholder: 'jane@brand.com' })}
-                  </div>
-                  {field('company', 'Company (optional)', { placeholder: 'e.g. a brand, a retailer, a fund' })}
-                  {field('message', 'What’s this about?', { as: 'textarea', placeholder: 'Tell us why you’re reaching out — a partnership, an investment, a brand, a hello.' })}
-                  <button type="submit" disabled={status === 'submitting'}
-                    style={{
-                      marginTop: 8,
-                      appearance: 'none', border: 'none', cursor: 'pointer',
-                      background: 'var(--paper)', color: 'var(--ink)',
-                      borderRadius: 999, padding: '14px 22px',
-                      fontFamily: 'var(--sans)', fontSize: 15, fontWeight: 500,
-                      letterSpacing: '-0.005em',
-                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-                      transition: 'transform .2s ease, opacity .2s ease',
-                      opacity: status === 'submitting' ? 0.7 : 1,
-                    }}
-                  >
-                    {status === 'submitting' ? 'Sending…' : 'Send message'}
-                    <span aria-hidden>→</span>
-                  </button>
-                </form>
-              )}
-            </div>
-          </Reveal>
-        </div>
+        <Reveal delay={80}>
+          <h2 style={{
+            fontFamily: 'var(--serif)', fontWeight: 400,
+            fontSize: 'clamp(40px, 7vw, 96px)', lineHeight: 0.98,
+            letterSpacing: '-0.035em', color: 'var(--ink)',
+            margin: 0, textWrap: 'balance',
+          }}>
+            Let's talk.
+          </h2>
+        </Reveal>
+
+        <Reveal delay={160}>
+          <p style={{
+            marginTop: 20,
+            fontFamily: 'var(--sans)', fontSize: 'clamp(16px, 1.5vw, 18px)',
+            lineHeight: 1.5, color: 'var(--ink-70)',
+            maxWidth: 560, margin: '20px auto 0', textWrap: 'pretty',
+          }}>
+            Whether you're a retailer, a manufacturer, or an investor — drop us a line.
+          </p>
+        </Reveal>
+
+        <Reveal delay={240}>
+          <a href="mailto:info@herd-group.com" style={{
+            marginTop: 40,
+            display: 'inline-flex', alignItems: 'center', gap: 14,
+            fontFamily: 'var(--serif)', fontSize: 'clamp(22px, 3vw, 34px)',
+            letterSpacing: '-0.02em', color: 'var(--ink)',
+            textDecoration: 'none',
+            borderBottom: '1px solid var(--ink-20)',
+            paddingBottom: 6,
+            transition: 'border-color .3s ease, color .3s ease',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderBottomColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderBottomColor = 'var(--ink-20)'; e.currentTarget.style.color = 'var(--ink)'; }}
+          >
+            info@herd-group.com
+            <span aria-hidden style={{ display: 'inline-block' }}>→</span>
+          </a>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-function inputStyle(hasError) {
-  return {
-    width: '100%',
-    background: 'transparent',
-    color: 'var(--paper)',
-    border: 'none',
-    borderBottom: `1px solid ${hasError ? 'var(--danger)' : 'color-mix(in oklab, var(--paper) 25%, transparent)'}`,
-    padding: '10px 2px',
-    fontFamily: 'var(--sans)',
-    fontSize: 16,
-    outline: 'none',
-    borderRadius: 0,
-    resize: 'vertical',
-    transition: 'border-color .2s ease',
-  };
-}
-
-function ContactRow({ k, v }) {
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', alignItems: 'baseline', gap: 16, borderTop: '1px solid var(--ink-10)', paddingTop: 14 }}>
-      <dt style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-60)' }}>{k}</dt>
-      <dd style={{ margin: 0, fontFamily: 'var(--sans)', fontSize: 16, color: 'var(--ink)' }}>{v}</dd>
-    </div>
-  );
-}
-
-function SuccessState({ onReset }) {
-  return (
-    <div style={{ position: 'relative', display: 'grid', gap: 16, padding: '20px 0' }}>
-      <span style={{
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        width: 44, height: 44, borderRadius: 999,
-        background: 'var(--accent)', color: 'var(--ink)', fontWeight: 600,
-      }}>✓</span>
-      <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, lineHeight: 1.1, margin: 0, letterSpacing: '-0.02em' }}>
-        Thanks — the humans will take it from here.
-      </h3>
-      <p style={{ fontFamily: 'var(--sans)', fontSize: 15, lineHeight: 1.55, color: 'color-mix(in oklab, var(--paper) 75%, transparent)', margin: 0, maxWidth: 440 }}>
-        A human on our team will get back to you shortly. Meanwhile,
-        the models keep shipping.
-      </p>
-      <button onClick={onReset}
-        style={{
-          justifySelf: 'start', marginTop: 8, cursor: 'pointer',
-          background: 'transparent', color: 'var(--paper)',
-          border: '1px solid color-mix(in oklab, var(--paper) 25%, transparent)',
-          borderRadius: 999, padding: '10px 16px',
-          fontFamily: 'var(--sans)', fontSize: 14,
-        }}
-      >
-        Send another
-      </button>
-    </div>
-  );
-}
-
-// ————— Footer —————
-
 function Footer() {
   return (
     <footer className="h-footer" style={{
-      padding: '80px 32px 40px',
+      padding: 'clamp(56px, 9vw, 80px) clamp(20px, 4vw, 32px) 32px',
       borderTop: '1px solid var(--ink-10)',
       background: 'var(--paper)',
       overflow: 'hidden',

@@ -58,7 +58,7 @@ function Demonstration() {
 
   return (
     <section id="build" ref={ref} className="h-demo" style={{
-      padding: '140px 32px',
+      padding: 'clamp(56px, 10vw, 140px) clamp(20px, 4vw, 32px)',
       background: 'var(--paper)',
       borderTop: '1px solid var(--ink-10)',
       position: 'relative',

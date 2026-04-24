@@ -139,7 +139,7 @@ function Traction() {
 
   return (
     <section ref={ref} id="traction" className="h-traction" style={{
-      padding: '120px 32px',
+      padding: 'clamp(72px, 11vw, 120px) clamp(20px, 4vw, 32px)',
       background: 'var(--paper)',
       borderTop: '1px solid var(--ink-10)',
     }}>
@@ -227,8 +227,7 @@ function Traction() {
             </div>
           </div>
 
-          <svg viewBox={`0 0 ${W} ${H}`} width="100%" preserveAspectRatio="none" style={{ display: 'block', overflow: 'visible' }}>
-            <defs>
+          <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={220} preserveAspectRatio="none" style={{ display: 'block', overflow: 'visible' }}>{/* fixed render height so mobile doesn't stretch */}            <defs>
               <linearGradient id="tr-grad" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.55"/>
                 <stop offset="100%" stopColor="var(--accent)" stopOpacity="0"/>
@@ -354,7 +353,7 @@ function Traction() {
 function Founder() {
   return (
     <section id="founder" className="h-founder" style={{
-      padding: '120px 32px',
+      padding: 'clamp(72px, 11vw, 120px) clamp(20px, 4vw, 32px)',
       background: 'var(--paper-2)',
       borderTop: '1px solid var(--ink-10)',
     }}>
